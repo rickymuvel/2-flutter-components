@@ -42,9 +42,7 @@ class HomePage extends StatelessWidget {
         trailing: Icon(Icons.keyboard_arrow_right, color: Colors.blue),
         onTap: () {
           final route = MaterialPageRoute(
-            builder: (context) {
-              return AlertPage();
-            }
+            builder: (context) => AlertPage()
           );
           Navigator.push(context, route);
         },
