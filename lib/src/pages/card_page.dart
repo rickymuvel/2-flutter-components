@@ -11,7 +11,9 @@ class CardPage extends StatelessWidget {
         padding: EdgeInsets.all(20),
         // padding: EdgeInsets.symmetric(horizontal: 50.0, vertical: 10.0),
         children: <Widget>[
-          _cardTipo1()
+          _cardTipo1(),
+          SizedBox(height: 30.0),
+          _cardTipo2(),
         ],
       ),
     );
@@ -39,6 +41,23 @@ class CardPage extends StatelessWidget {
               )
             ],
           )
+        ],
+      ),
+    );
+  }
+
+  Widget _cardTipo2() {
+    return Card(
+      child: Column(
+        children: <Widget>[
+          Image(
+            image: NetworkImage('https://www.yourtrainingedge.com/wp-content/uploads/2019/05/background-calm-clouds-747964.jpg'),
+          ),
+
+          Container(
+            padding: EdgeInsets.all(10.0),
+            child: Text('Meditando la palabra del Señor')
+          ),
         ],
       ),
     );
