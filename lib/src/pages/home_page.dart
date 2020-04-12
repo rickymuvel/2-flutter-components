@@ -20,7 +20,7 @@ class HomePage extends StatelessWidget {
     
     return FutureBuilder(
       future: menuProvider.cargarData(),
-      // initialData: [],
+      initialData: [],
       builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
         return 
           ListView(
@@ -31,9 +31,6 @@ class HomePage extends StatelessWidget {
     }
       
   List<Widget> _listaItems(List<dynamic> data, BuildContext context) {
-    
-    if (data == null) { return []; }
-
     final List<Widget> opciones = [];
 
     data.forEach((opt) {
