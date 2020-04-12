@@ -50,13 +50,16 @@ class CardPage extends StatelessWidget {
     return Card(
       child: Column(
         children: <Widget>[
-          Image(
+          FadeInImage(
             image: NetworkImage('https://www.yourtrainingedge.com/wp-content/uploads/2019/05/background-calm-clouds-747964.jpg'),
+            placeholder: AssetImage('assets/original.gif'),
+            fadeInDuration: Duration(milliseconds: 200),
+            height: 240.0,
+            fit: BoxFit.cover,
           ),
-
           Container(
             padding: EdgeInsets.all(10.0),
-            child: Text('Meditando la palabra del Señor')
+            child: Text('Meditando la palabra del Señor'),
           ),
         ],
       ),
