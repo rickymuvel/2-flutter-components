@@ -8,6 +8,8 @@ class InputPage extends StatefulWidget {
 class _InputPageState extends State<InputPage> {
   
   String _nombre = '';
+  String _email = '';
+  String _password = '';
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +21,10 @@ class _InputPageState extends State<InputPage> {
         padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
         children: <Widget>[
           _crearInput(),
+          Divider(),
+          _crearEmail(),
+          Divider(),
+          _crearPassword(),
           Divider(),
           _crearPersona(),
         ],
@@ -37,7 +43,6 @@ class _InputPageState extends State<InputPage> {
         helperText: 'Solo es el nombre',
         suffixIcon: Icon(Icons.accessibility),
         icon: Icon(Icons.account_circle),
-        // prefixIcon: Icon(Icons.person_add),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20.0)
         )
@@ -53,6 +58,48 @@ class _InputPageState extends State<InputPage> {
   Widget _crearPersona() {
     return ListTile(
       title: Text('Nombre es $_nombre')
+    );
+  }
+
+  Widget _crearEmail() {
+    return TextField(
+      keyboardType: TextInputType.emailAddress,
+      decoration: InputDecoration(
+        counter: Text('Letras ${_email.length}'),
+        hintText: 'Email de la persona',
+        labelText: 'Email',
+        suffixIcon: Icon(Icons.accessibility),
+        icon: Icon(Icons.account_circle),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20.0)
+        ),
+      ),
+      onChanged: (valor) {
+        setState(() {
+          _email = valor;
+        });
+      },
+    );
+  }
+  
+  Widget _crearPassword() {
+    return TextField(
+      obscureText: true,
+      decoration: InputDecoration(
+        counter: Text('Letras ${_password.length}'),
+        hintText: 'Password',
+        labelText: 'Password',
+        suffixIcon: Icon(Icons.lock_open),
+        icon: Icon(Icons.lock),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20.0)
+        ),
+      ),
+      onChanged: (valor) {
+        setState(() {
+          _email = valor;
+        });
+      },
     );
   }
 }
