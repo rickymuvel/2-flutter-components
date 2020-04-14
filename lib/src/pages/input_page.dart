@@ -10,6 +10,9 @@ class _InputPageState extends State<InputPage> {
   String _nombre = '';
   String _email = '';
   String _password = '';
+  String _fecha = '';
+
+  TextEditingController _inputFieldDateCongroller = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +28,8 @@ class _InputPageState extends State<InputPage> {
           _crearEmail(),
           Divider(),
           _crearPassword(),
+          Divider(),
+          _crearFecha(context),
           Divider(),
           _crearPersona(),
         ],
@@ -57,7 +62,8 @@ class _InputPageState extends State<InputPage> {
 
   Widget _crearPersona() {
     return ListTile(
-      title: Text('Nombre es $_nombre')
+      title: Text('Nombre es $_nombre'),
+      subtitle: Text('Fecha es $_fecha'),
     );
   }
 
@@ -65,7 +71,6 @@ class _InputPageState extends State<InputPage> {
     return TextField(
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
-        counter: Text('Letras ${_email.length}'),
         hintText: 'Email de la persona',
         labelText: 'Email',
         suffixIcon: Icon(Icons.accessibility),
@@ -82,11 +87,30 @@ class _InputPageState extends State<InputPage> {
     );
   }
   
+  Widget _crearFecha(BuildContext context) {
+    return TextField(
+      enableInteractiveSelection: false,
+      controller: _inputFieldDateCongroller,
+      decoration: InputDecoration(
+        hintText: 'Fecha de nacimiento',
+        labelText: 'Fecha de nacimiento',
+        suffixIcon: Icon(Icons.calendar_today),
+        icon: Icon(Icons.perm_contact_calendar),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20.0)
+        ),
+      ),
+      onTap: () {
+        FocusScope.of(context).requestFocus(new FocusNode());
+        _selectDate(context);
+      },
+    );
+  }
+
   Widget _crearPassword() {
     return TextField(
       obscureText: true,
       decoration: InputDecoration(
-        counter: Text('Letras ${_password.length}'),
         hintText: 'Password',
         labelText: 'Password',
         suffixIcon: Icon(Icons.lock_open),
@@ -97,9 +121,25 @@ class _InputPageState extends State<InputPage> {
       ),
       onChanged: (valor) {
         setState(() {
-          _email = valor;
+          _password = valor;
         });
       },
     );
+  }
+
+  void _selectDate(BuildContext context) async {
+    DateTime picked = await showDatePicker(
+      context: context, 
+      initialDate: new DateTime.now(), 
+      firstDate: new DateTime(2018), 
+      lastDate: new DateTime(2025)
+    );
+
+    if (picked != null ) {
+      setState(() {
+        _fecha = picked.toString();
+        _inputFieldDateCongroller.text = _fecha;
+      });
+    }
   }
 }
