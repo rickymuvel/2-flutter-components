@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -8,7 +7,6 @@ class ListaPage extends StatefulWidget {
 }
 
 class _ListaPageState extends State<ListaPage> {
-
   ScrollController _scrollController = new ScrollController();
   List<int> _listaNumeros = new List();
   int _ultimoItem = 0;
@@ -20,14 +18,13 @@ class _ListaPageState extends State<ListaPage> {
     _agregar10();
 
     _scrollController.addListener(() {
-      
       var pixels = _scrollController.position.pixels;
       var maxScroll = _scrollController.position.maxScrollExtent;
 
-      if(pixels == maxScroll) {
+      if (pixels == maxScroll) {
         // _agregar10();
         fetchData();
-      } 
+      }
     });
   }
 
@@ -53,16 +50,19 @@ class _ListaPageState extends State<ListaPage> {
   }
 
   Widget _crearLista() {
-    return ListView.builder(
-      controller: _scrollController,
-      itemCount: _listaNumeros.length,
-      itemBuilder: (BuildContext context, int index) {
-        final imagen = _listaNumeros[index];
-        return FadeInImage(
-          image: NetworkImage('https://picsum.photos/500/300/?image=$imagen'),
-          placeholder: AssetImage('assets/original.gif'),
-        );
-      },
+    return RefreshIndicator(
+      onRefresh: obtenerPagina1,
+      child: ListView.builder(
+        controller: _scrollController,
+        itemCount: _listaNumeros.length,
+        itemBuilder: (BuildContext context, int index) {
+          final imagen = _listaNumeros[index];
+          return FadeInImage(
+            image: NetworkImage('https://picsum.photos/500/300/?image=$imagen'),
+            placeholder: AssetImage('assets/original.gif'),
+          );
+        },
+      ),
     );
   }
 
@@ -84,16 +84,14 @@ class _ListaPageState extends State<ListaPage> {
   }
 
   void respuestaHTTP() {
-     _isLoading = false;
+    _isLoading = false;
 
     // esto lo que hace es mover el scroll para que se vea que hay
     // más elementos abajo del listado de imágenes.
-     _scrollController.animateTo(
-       _scrollController.position.pixels + 100, 
-       duration: Duration(milliseconds: 250), 
-       curve: Curves.fastOutSlowIn);
+    _scrollController.animateTo(_scrollController.position.pixels + 100,
+        duration: Duration(milliseconds: 250), curve: Curves.fastOutSlowIn);
 
-     _agregar10();
+    _agregar10();
   }
 
   Widget _crearLoading() {
@@ -108,12 +106,23 @@ class _ListaPageState extends State<ListaPage> {
               CircularProgressIndicator(),
             ],
           ),
-          SizedBox(height: 20.0,)
+          SizedBox(
+            height: 20.0,
+          )
         ],
       );
-      
     } else {
       return Container();
     }
+  }
+
+  Future<Null> obtenerPagina1() {
+    final duration = new Duration(seconds: 2);
+    new Timer(duration, () {
+      _listaNumeros.clear();
+      _ultimoItem++;
+      _agregar10();
+    });
+  return Future.delayed(duration);
   }
 }
